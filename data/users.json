@@ -1,1 +1,29 @@
-[]
+[
+    {
+        "firstName": "shannon",
+        "lastName": "p",
+        "username": "shanwiich",
+        "hash": "$2a$10$TeUJHn4reNKQhYdLrseNt.9npBAj7b9pF37BpZDIkJrl2hM17wSki",
+        "id": 1,
+        "dateCreated": "2022-11-16T01:47:29.380Z",
+        "dateUpdated": "2022-11-16T01:47:29.380Z"
+    },
+    {
+        "firstName": "karen",
+        "lastName": "vinod",
+        "username": "kar",
+        "hash": "$2a$10$ZMO1Y70jOlbQlOXAcDc/E.gbb7tcqhP76VLjYbUFfP/jPWGJCw7y2",
+        "id": 2,
+        "dateCreated": "2022-11-16T05:07:04.941Z",
+        "dateUpdated": "2022-11-16T05:07:04.941Z"
+    },
+    {
+        "firstName": "fof",
+        "lastName": "fof",
+        "username": "haha",
+        "hash": "$2a$10$YUTUL52jCQoiRkSOZVVhSuIq/QCvf60w/tjDX95jhV84GSf5e3Rh.",
+        "id": 3,
+        "dateCreated": "2022-11-16T05:46:36.683Z",
+        "dateUpdated": "2022-11-16T05:46:36.683Z"
+    }
+]

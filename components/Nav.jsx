@@ -16,16 +16,13 @@ function Nav() {
     function logout() {
         userService.logout();
     }
-
-    // only show nav when logged in
-    if (!user) return null;
     
     return (
         <nav className="navbar navbar-expand navbar-dark bg-dark">
             <div className="navbar-nav">
                 <NavLink href="/" exact className="nav-item nav-link">Home</NavLink>
-                <NavLink href="/users" className="nav-item nav-link">Users</NavLink>
-                <a onClick={logout} className="nav-item nav-link">Logout</a>
+                <NavLink href="/users" className="nav-item nav-link">Reservations</NavLink>
+                <a onClick={logout} className="nav-item nav-link">{!user? "Login/Register" : "Logout"}</a>
             </div>
         </nav>
     );

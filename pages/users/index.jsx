@@ -25,8 +25,8 @@ function Index() {
 
     return (
         <Layout>
-            <h1>Users</h1>
-            <Link href="/users/add" className="btn btn-sm btn-success mb-2">Add User</Link>
+            <h1>Reservations</h1>
+            <Link href="/users/add" className="btn btn-sm btn-success mb-2">Add Reservation</Link>
             <table className="table table-striped">
                 <thead>
                     <tr>
