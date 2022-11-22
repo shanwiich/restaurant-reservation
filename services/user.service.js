@@ -54,7 +54,7 @@ function update(id, params) {
     return fetchWrapper.put(`${baseUrl}/${id}`, params)
         .then(x => {
             // update stored user if the logged in user updated their own record
-            if (id === userSubject.value.id) {
+            if (userSubject.value != null && id === userSubject.value.id) {
                 // update local storage
                 const user = { ...userSubject.value, ...params };
                 localStorage.setItem('user', JSON.stringify(user));
