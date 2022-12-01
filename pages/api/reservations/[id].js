@@ -12,8 +12,10 @@ export default apiHandler({
 
 function add(req, res) {
     //split out password from user details 
-    const { user } = req.body;
+    const user = req.body;
     console.log(user)
+    console.log(req.body)
+    //console.log("res" + res)
 
     // validate
     // if (reservationRepo.find(x => x.username === user.username))

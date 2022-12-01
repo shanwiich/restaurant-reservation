@@ -70,7 +70,7 @@ function AddEdit(props) {
         return reservationService.add(id, data)
             .then(() => {
                 alertService.success('Reservation added', { keepAfterRouteChange: true });
-                router.push('/user');
+                router.push('/users');
             })
             .catch(alertService.error);
     }

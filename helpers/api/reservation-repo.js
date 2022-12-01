@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // reservation in JSON file for simplicity, store in a db for production applications
-let reservation = require('data/reservation.json');
+let reservations = require('data/reservations.json');
 
 export const reservationRepo = {
     getAll: () => reservation,
@@ -21,7 +21,7 @@ function create(id, reservation) {
     reservation.dateUpdated = new Date().toISOString();
 
     // add and save reservation
-    reservation.push(reservation);
+    reservations.push(reservation);
     saveData();
 }
 
@@ -47,5 +47,5 @@ function _delete(id) {
 // private helper functions
 
 function saveData() {
-    fs.writeFileSync('data/reservation.json', JSON.stringify(reservation, null, 4));
+    fs.writeFileSync('data/reservations.json', JSON.stringify(reservations, null, 4));
 }
