@@ -4,21 +4,30 @@ import { apiHandler } from 'helpers/api';
 import { reservationRepo, omit } from 'helpers/api';
 
 export default apiHandler({
-    get: getByUserId,
+    get: getByCode,
     put: update,
-    delete: _delete
+    delete: _delete,
+    post: add
 });
 
-function getByUserId(req, res) {
-    const reservation = reservationRepo.getByUserId(req.query.id).map(x => omit(x, 'hash'));
+function add(req, res) {
+    const reservation = req.body;   
 
-    //if (!reservation) throw 'reservation Not Found';
+    const reservationID = reservationRepo.create(reservation);
 
-    return res.status(200).json(reservation);
+    return res.status(200).json({"reservationID" : reservationID});
+}
+
+function getByCode(req, res) {
+    const reservation = reservationRepo.getByCode(req.query.id);
+
+    if (!reservation) throw 'reservation Not Found';
+
+    return res.status(200).json(omit(reservation, 'hash'));
 }
 
 function update(req, res) {
-    const reservation = reservationRepo.getById(req.query.id);
+    const reservation = reservationRepo.getByCode(req.query.id);
 
     if (!reservation) throw 'reservation Not Found';
 

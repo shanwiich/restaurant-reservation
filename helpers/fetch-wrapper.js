@@ -26,8 +26,6 @@ function post(url, body) {
         credentials: 'include',
         body: JSON.stringify(body)
     };
-    console.log(url)
-    console.log(requestOptions)
     return fetch(url, requestOptions).then(handleResponse);
 }
 

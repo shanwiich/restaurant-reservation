@@ -5,24 +5,21 @@ let reservations = require('data/reservations.json');
 
 export const reservationRepo = {
     getAll: () => reservations,
-    getById: id => reservations.find(x => x.id.toString() === id.toString()),
+    getByUserId: id => reservations.filter(x => x.userId.toString() === id.toString()),
     find: x => reservations.find(x),
     create,
     update,
     delete: _delete
 };
 
-function create(id, reservation) {
+function create(reservation) {
     // generate new reservation id
     reservation.id = reservations.length ? Math.max(...reservations.map(x => x.id)) + 1 : 1;
-    reservation.userId = id;
-    // set date created and updated
-    reservation.dateCreated = new Date().toString();
-    reservation.dateUpdated = new Date().toString();
 
 
     // add and save reservation
     reservations.push(reservation);
+
     saveData();
 
     return reservation.id
@@ -47,7 +44,7 @@ function _delete(id) {
     
 }
 
-// private helper functions
+// updates jsonfile
 
 function saveData() {
     fs.writeFileSync('data/reservations.json', JSON.stringify(reservations, null, 4));

@@ -2,19 +2,56 @@
     {
         "TableId": 1,
         "seats": 4,
-        "datetime": "Wed Nov 25 2022 23:41:13 GMT-0600 (Central Standard Time)",
+        "date": "2022-12-18T00:00:00.000Z",
         "booked": false
     },
     {
         "TableId": 2,
         "seats": 6,
-        "datetime": "Wed Nov 31 2022 23:41:13 GMT-0600 (Central Standard Time)",
+        "date": "2022-12-18T00:00:00.000Z",
         "booked": false
     },
     {
         "TableId": 3,
         "seats": 2,
-        "datetime": "Wed Nov 30 2022 23:41:13 GMT-0600 (Central Standard Time)",
+        "date": "2022-12-18T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": 4,
+        "seats": 4,
+        "date": "2022-12-19T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": 5,
+        "seats": 6,
+        "date": "2022-12-19T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": 6,
+        "seats": 2,
+        "date": "2022-12-19T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": 7,
+        "seats": 4,
+        "date": "2022-12-20T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": 8,
+        "seats": 6,
+        "date": "2022-12-20T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": 9,
+        "seats": 2,
+        "date": "2022-12-20T00:00:00.000Z",
         "booked": false
     }
+    
 ]
