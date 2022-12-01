@@ -24,8 +24,9 @@ function add(req, res) {
     // // hash password
     // user.hash = bcrypt.hashSync(password, 10);    
 
-    reservationRepo.create(req.query.id, user);
-    return res.status(200).json({});
+    const reservationID = reservationRepo.create(req.query.id, user);
+    console.log(reservationID)
+    return res.status(200).json({"reservationID" : reservationID});
 }
 
 function getById(req, res) {

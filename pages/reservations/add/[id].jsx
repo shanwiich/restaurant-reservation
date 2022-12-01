@@ -7,16 +7,20 @@ export default Add;
 function Add({ id }) {
     const [user, setUser] = useState(null);
     
-    useEffect(() => {
-        console.log(id + 'here')
-        // fetch user and set default form values if in edit mode
-        userService.getById(id)
-            .then(x => setUser(x))
-            .catch(alertService.error)
+    if(id != 0){
+        useEffect(() => {
+            console.log(id + 'here')
+            // fetch user and set default form values if in edit mode
+            userService.getById(id)
+                .then(x => setUser(x))
+                .catch(alertService.error)
 
-            
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+                
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, []);
+    }
+
+    console.log(user)
 
     return (
         <Layout>

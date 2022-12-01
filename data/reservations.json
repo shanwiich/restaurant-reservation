@@ -1,1 +1,13 @@
-[]
+[
+    {
+        "firstNameRes": "shannon",
+        "lastNameRes": "pp",
+        "phone": "4056783456",
+        "email": "dd@gg.com",
+        "guests": "7",
+        "id": 1,
+        "userId": "1",
+        "dateCreated": "2022-12-01T03:43:21.123Z",
+        "dateUpdated": "2022-12-01T03:43:21.123Z"
+    }
+]

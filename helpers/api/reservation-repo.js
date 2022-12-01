@@ -14,15 +14,18 @@ export const reservationRepo = {
 
 function create(id, reservation) {
     // generate new reservation id
-    reservation.id = reservation.length ? Math.max(...reservation.map(x => x.id)) + 1 : 1;
-
+    reservation.id = reservations.length ? Math.max(...reservations.map(x => x.id)) + 1 : 1;
+    reservation.userId = id;
     // set date created and updated
     reservation.dateCreated = new Date().toISOString();
     reservation.dateUpdated = new Date().toISOString();
 
+
     // add and save reservation
     reservations.push(reservation);
     saveData();
+
+    return reservation.id
 }
 
 function update(id, params) {

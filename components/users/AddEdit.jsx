@@ -63,13 +63,13 @@ function AddEdit(props) {
     // }
 
     function onSubmit(data) {
-        return createReservation(user.id, data)
+        return createReservation(user?.id, data)
     }
 
-    function createReservation(id, data) {
+    function createReservation(id = 0, data) {
         return reservationService.add(id, data)
-            .then(() => {
-                alertService.success('Reservation added', { keepAfterRouteChange: true });
+            .then((reservationInfo) => {
+                alertService.success(`Reservation added! Reservation Code is: ${reservationInfo.reservationID} `, { keepAfterRouteChange: true });
                 router.push('/users');
             })
             .catch(alertService.error);
