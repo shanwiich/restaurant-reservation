@@ -22,11 +22,11 @@ function Index() {
             setUsers(users => users.filter(x => x.id !== id));
         });
     }
-
+////add/${userService.userValue ? userService.userValue.id : 0}
     return (
         <Layout>
             <h1>Reservations</h1>
-            <Link href={`/reservations/add/${userService.userValue ? userService.userValue.id : 0}`} className="btn btn-sm btn-success mb-2">Add Reservation</Link>
+            <Link href={`/reservations`} className="btn btn-sm btn-success mb-2">Add Reservation</Link>
             <table className="table table-striped">
                 <thead>
                     <tr>

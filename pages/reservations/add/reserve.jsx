@@ -1,15 +1,22 @@
 import { Layout, AddEdit } from 'components/users';
 import { reservationService, userService, alertService } from 'services';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default Add;
 
-function Add({ id }) {
+function Add() {
+    const id = userService.userValue ? userService.userValue.id : 0
+
     const [user, setUser] = useState(null);
-    
+    const router = useRouter()
+
+    const {
+        query: {guests, date},
+    } = router
+
     if(id != 0){
         useEffect(() => {
-            console.log(id + 'here')
             // fetch user and set default form values if in edit mode
             userService.getById(id)
                 .then(x => setUser(x))
@@ -20,7 +27,7 @@ function Add({ id }) {
         }, []);
     }
 
-    console.log(user)
+    console.log({user} +  '  here')
 
     return (
         <Layout>
@@ -30,8 +37,8 @@ function Add({ id }) {
     );
 }
 
-export async function getServerSideProps({ params }) {
-    return {
-        props: { id: params.id }
-    }
-}
+// export async function getServerSideProps({ params }) {
+//     return {
+//         props: { id: params.id }
+//     }
+// }

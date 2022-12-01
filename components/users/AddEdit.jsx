@@ -4,15 +4,30 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import "yup-phone-lite";
 
-import { Link } from 'components';
+import { Link, Spinner } from 'components';
 import { reservationService, userService, alertService } from 'services';
+import { useState, useEffect } from 'react';
+import { tableService } from 'services/table.service';
 
 export { AddEdit };
 
 function AddEdit(props) {
+    const router = useRouter()
+
+    const {
+        query: {guests, date},
+    } = router
+
+    const [tables, setTables] = useState(null);
+
+    useEffect(() => {
+        tableService.getAll().then(x => setTables(x));
+    }, []);
+
     const user = props?.user;
     const isAddMode = !user;
-    const router = useRouter();
+
+    console.log(tables)
     
     // form validation rules 
     const validationSchema = Yup.object().shape({
@@ -25,11 +40,7 @@ function AddEdit(props) {
             .required("A input is required"),
         email: Yup.string()
             .email('Not a proper email')
-            .required("A input is required"),
-        guests: Yup.string()
-            .transform(x => x === '' ? undefined : x)
-            .required('Specify number of Guests!')
-            .min(1, 'You must have atleast one Guest!')
+            .required("A input is required")
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
 
@@ -86,6 +97,42 @@ function AddEdit(props) {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th style={{ width: '30%' }}>First Name</th>
+                        <th style={{ width: '30%' }}>Last Name</th>
+                        <th style={{ width: '30%' }}>Seats</th>
+                        <th style={{ width: '20%' }}>Date/Time</th>
+                    </tr>
+                </thead>
+            <tbody>
+                    {tables && tables.map(table =>
+                        <tr key={table.TableId}>
+                            <td>{table.seats}</td>
+                            <td>{table.booked == false ? "Open" : "Booked"}</td>
+                            <td>{table.datetime}</td>
+                            <td style={{ whiteSpace: 'nowrap' }}>
+                                <Link href={`/users`} className="btn btn-sm btn-primary mr-1">Select</Link>
+                            </td>
+                        </tr>
+                    )}
+                    {!tables &&
+                        <tr>
+                            <td colSpan="4">
+                                <Spinner />
+                            </td>
+                        </tr>
+                    }
+                    {tables && !tables.length &&
+                        <tr>
+                            <td colSpan="4" className="text-center">
+                                <div className="p-2">No Tables To Display</div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                </table>
             <div className="form-row">
                 <div className="form-group col">
                     <label>First Name</label>
@@ -122,11 +169,6 @@ function AddEdit(props) {
                     <input name="email" type="email" {...register('email')} className={`form-control ${errors.email ? 'is-invalid' : ''}`} />
                     <div className="invalid-feedback">{errors.email?.message}</div>
                 </div>
-                <div className="form-group col">
-                    <label># Of Guests</label>
-                    <input name="guests" type="number"  min="1" max="10" {...register('guests')} className={`form-control ${errors.guests ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.email?.message}</div>
-                </div>
             </div>
             <div className="form-group">
                 <button type="submit" disabled={formState.isSubmitting} className="btn btn-primary mr-2">
@@ -134,7 +176,7 @@ function AddEdit(props) {
                     Save
                 </button>
                 <button onClick={() => reset(formOptions.defaultValues)} type="button" disabled={formState.isSubmitting} className="btn btn-secondary">Reset</button>
-                <Link href="/users" className="btn btn-link">Cancel</Link>
+                <Link href="/reservations" className="btn btn-link">Cancel</Link>
             </div>
         </form>
     );

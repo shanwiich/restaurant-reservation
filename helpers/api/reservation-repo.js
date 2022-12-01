@@ -4,9 +4,9 @@ const fs = require('fs');
 let reservations = require('data/reservations.json');
 
 export const reservationRepo = {
-    getAll: () => reservation,
-    getById: id => reservation.find(x => x.id.toString() === id.toString()),
-    find: x => reservation.find(x),
+    getAll: () => reservations,
+    getById: id => reservations.find(x => x.id.toString() === id.toString()),
+    find: x => reservations.find(x),
     create,
     update,
     delete: _delete
@@ -17,8 +17,8 @@ function create(id, reservation) {
     reservation.id = reservations.length ? Math.max(...reservations.map(x => x.id)) + 1 : 1;
     reservation.userId = id;
     // set date created and updated
-    reservation.dateCreated = new Date().toISOString();
-    reservation.dateUpdated = new Date().toISOString();
+    reservation.dateCreated = new Date().toString();
+    reservation.dateUpdated = new Date().toString();
 
 
     // add and save reservation
@@ -32,7 +32,7 @@ function update(id, params) {
     const reservation = reservation.find(x => x.id.toString() === id.toString());
 
     // set date updated
-    reservation.dateUpdated = new Date().toISOString();
+    reservation.dateUpdated = new Date().toString();
 
     // update and save
     Object.assign(reservation, params);

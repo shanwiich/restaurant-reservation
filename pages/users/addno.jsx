@@ -2,9 +2,9 @@ import { Layout, AddEdit } from 'components/users';
 import { userService, alertService } from 'services';
 import { useState, useEffect } from 'react';
 
-export default Add;
+export default Addno;
 
-function Add() {
+function Addno() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {

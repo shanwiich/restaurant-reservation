@@ -1,11 +1,18 @@
 [
     {
-        "firstName": "Shannon",
+        "firstName": "shannon",
         "lastName": "P",
-        "username": "what",
-        "hash": "$2a$10$KaYLVcMP73KvNw/uBo3WbOoE/OFySKTRl.U03xTj47VmszPxd0piq",
+        "username": "VV",
+        "hash": "$2a$10$yNdr4vy6Cq1CZ.r7nbSSPuSyqBUDe0dFh3Tnk0o3DT5p1wC.olodu",
         "id": 1,
-        "dateCreated": "2022-11-30T20:46:34.551Z",
-        "dateUpdated": "2022-12-01T02:33:23.612Z"
+        "dateCreated": "2022-12-01T05:38:58.558Z"
+    },
+    {
+        "firstName": "vv",
+        "lastName": "vvcc",
+        "username": "cc",
+        "hash": "$2a$10$wD0mGQd4pKc01V7rLZFEO.8.2MCZpPPYNfK/BV2yjrTUt5PO2gZ.2",
+        "id": 2,
+        "dateCreated": "Wed Nov 30 2022 23:41:13 GMT-0600 (Central Standard Time)"
     }
 ]

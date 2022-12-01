@@ -9,5 +9,17 @@
         "userId": "1",
         "dateCreated": "2022-12-01T03:43:21.123Z",
         "dateUpdated": "2022-12-01T03:43:21.123Z"
+    },
+    {
+        "firstNameRes": "Shannon",
+        "lastNameRes": "Puliyampallil",
+        "phone": "14055891102",
+        "email": "sha@gmail.com",
+        "guests": "1",
+        "date": "2022-12-05",
+        "id": 2,
+        "userId": "2",
+        "dateCreated": "Thu Dec 01 2022 01:36:45 GMT-0600 (Central Standard Time)",
+        "dateUpdated": "Thu Dec 01 2022 01:36:45 GMT-0600 (Central Standard Time)"
     }
 ]
