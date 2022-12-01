@@ -1,1 +1,16 @@
-[]
+[
+    {
+        "firstName": "Shannon",
+        "lastName": "P",
+        "username": "what",
+        "hash": "$2a$10$KaYLVcMP73KvNw/uBo3WbOoE/OFySKTRl.U03xTj47VmszPxd0piq",
+        "id": 1,
+        "dateCreated": "2022-11-30T20:46:34.551Z",
+        "dateUpdated": "2022-12-01T02:33:23.612Z",
+        "firstNameRes": "Shannon",
+        "lastNameRes": "Puliyampallil",
+        "phone": "14055891125",
+        "email": "shanupeplum@gmail.com",
+        "guests": "4"
+    }
+]

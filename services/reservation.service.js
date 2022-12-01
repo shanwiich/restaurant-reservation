@@ -5,51 +5,43 @@ import Router from 'next/router';
 import { fetchWrapper } from 'helpers';
 
 const { publicRuntimeConfig } = getConfig();
-const baseUrl = `${publicRuntimeConfig.apiUrl}/users`;
+const baseUrl = `${publicRuntimeConfig.apiUrl}/reservations`;
 const baseDom = `${publicRuntimeConfig.apiUrl}`
 const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
 
-export const userService = {
+export const reservationService = {
     user: userSubject.asObservable(),
     get userValue () { return userSubject.value },
-    login,
-    logout,
-    register,
     getAll,
     getById,
+    getByCode,
     update,
-    delete: _delete
+    delete: _delete,
+    add
+
 };
-
-function login(username, password) {
-    return fetchWrapper.post(`${baseUrl}/authenticate`, { username, password })
-        .then(user => {
-            // publish user to subscribers and store in local storage to stay logged in between page refreshes
-            userSubject.next(user);
-            localStorage.setItem('user', JSON.stringify(user));
-
-            return user;
-        });
-}
-
-function logout() {
-    // remove user from local storage, publish null to user subscribers and redirect to login page
-    localStorage.removeItem('user');
-    userSubject.next(null);
-    Router.push('/account/login');
-}
-
-function register(user) {
-    return fetchWrapper.post(`${baseUrl}/register`, user);
-}
 
 function getAll() {
     return fetchWrapper.get(baseUrl);
 }
 
+// function getUser(id) {
+//     return fetchWrapper.get(`${baseDom}/users/${id}`);
+// }
+
 function getById(id) {
-    console.log(`${baseUrl}/${id}`)
+    console.log(`get by id${baseUrl}/${id}`)
     return fetchWrapper.get(`${baseUrl}/${id}`);
+}
+
+function getByCode(code) {
+    return fetchWrapper.get(`${baseUrl}/${code}`);
+}
+
+function add(id, data) {
+    console.log(baseUrl)
+    console.log(data)
+    return fetchWrapper.post(`${baseUrl}/${id}`, data);
 }
 
 function update(id, params) {

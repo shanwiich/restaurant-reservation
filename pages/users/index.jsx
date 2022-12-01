@@ -26,14 +26,14 @@ function Index() {
     return (
         <Layout>
             <h1>Reservations</h1>
-            <Link href="/users/add" className="btn btn-sm btn-success mb-2">Add Reservation</Link>
+            <Link href={`/reservations/add/${userService.userValue ? userService.userValue.id : 0}`} className="btn btn-sm btn-success mb-2">Add Reservation</Link>
             <table className="table table-striped">
                 <thead>
                     <tr>
                         <th style={{ width: '30%' }}>First Name</th>
                         <th style={{ width: '30%' }}>Last Name</th>
-                        <th style={{ width: '30%' }}>Username</th>
-                        <th style={{ width: '10%' }}></th>
+                        <th style={{ width: '30%' }}>Seats</th>
+                        <th style={{ width: '20%' }}>Date/Time</th>
                     </tr>
                 </thead>
                 <tbody>

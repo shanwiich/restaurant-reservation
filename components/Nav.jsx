@@ -20,6 +20,7 @@ function Nav() {
     return (
         <nav className="navbar navbar-expand navbar-dark bg-dark">
             <div className="navbar-nav">
+                <div className="btn btn-dark">( The Reservation Portal )</div>
                 <NavLink href="/" exact className="nav-item nav-link">Home</NavLink>
                 <NavLink href="/users" className="nav-item nav-link">Reservations</NavLink>
                 <a onClick={logout} className="nav-item nav-link">{!user? "Login/Register" : "Logout"}</a>
