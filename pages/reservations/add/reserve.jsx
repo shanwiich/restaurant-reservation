@@ -2,13 +2,14 @@ import { Layout, AddEdit } from 'components/users';
 import { reservationService, userService, alertService } from 'services';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { tableService } from 'services/table.service';
 
 export default Add;
 
 function Add() {
     const id = userService.userValue ? userService.userValue.id : 0
-
     const [user, setUser] = useState(null);
+    const [tables, setTables] = useState(null);
     const router = useRouter()
 
     const {

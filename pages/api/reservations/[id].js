@@ -10,8 +10,8 @@ export default apiHandler({
 });
 
 function getByUserId(req, res) {
-    const reservation = reservationRepo.getByUserId(req.query.id).map(x => omit(x, 'hash'));
-
+    const reservation = reservationRepo.getByUserId(parseInt(req.query.id));
+    console.log(reservation + "gg" + req.query.id)
     //if (!reservation) throw 'reservation Not Found';
 
     return res.status(200).json(reservation);
@@ -39,6 +39,7 @@ function update(req, res) {
 }
 
 function _delete(req, res) {
-    reservationRepo.delete(req.query.id);
-    return res.status(200).json({});
+    const response = reservationRepo.delete(req.query.id);
+    console.log(response + 'f')
+    return res.status(200).json({"tableid" : response});
 }

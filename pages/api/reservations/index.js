@@ -6,7 +6,6 @@ import { reservationRepo, omit } from 'helpers/api';
 export default apiHandler({
     get: getByCode,
     put: update,
-    delete: _delete,
     post: add
 });
 
@@ -47,7 +46,7 @@ function update(req, res) {
     return res.status(200).json({});
 }
 
-function _delete(req, res) {
-    reservationRepo.delete(req.query.id);
-    return res.status(200).json({});
-}
+// function _delete(req, res) {
+//     reservationRepo.delete(req.query.id);
+//     return res.status(200).json({});
+// }

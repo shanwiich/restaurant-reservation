@@ -23,9 +23,13 @@ function AddEdit(props) {
     const [tables, setTables] = useState(null);
 
     useEffect(() => {
-        tableService.getAll().then(x => setTables(x));
+        // fetch user and set default form values if in edit mode
+        tableService.getTablesByFilter(date, guests)
+            .then(x => setTables(x))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    console.log(tables)
     const fee = feeService.checkDate(date)
 
     const user = props?.user;
@@ -45,7 +49,7 @@ function AddEdit(props) {
         email: Yup.string()
             .email('Not a proper email')
             .required("A input is required"),
-        tableid: Yup.number()
+        tableid: Yup.string()
             .required("A reservation option is required"),
         guests: Yup.number()
             .default(parseInt(guests)),
@@ -72,12 +76,22 @@ function AddEdit(props) {
     console.log(formState)
 
     function onSubmit(data) {
+        bookTable(data);
+        data.tableid = data.tableid.split(',');
         data.userId = user ? user.id : 0;
-        data.reservationDate = tables.find((table) => table.TableId == data.tableid).date
+        data.reservationDate = tables[0].date;
 
         console.log(data)
 
         return createReservation(data)
+    }
+
+    function bookTable(data){
+        return tableService.book(data.tableid.split(','))
+        .then(() => {
+            alertService.success(`Booked!`, { keepAfterRouteChange: true });
+        })
+        .catch(alertService.error);
     }
 
     function createReservation(data) {
@@ -92,10 +106,10 @@ function AddEdit(props) {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-                {tables && tables.map(table =>
+                {!tables ? <div>no reservations avaliable for specified filters</div> : tables.map(table =>
                     <div className="form-check">
-                        <input id={table.TableId} name="tableid" type="radio" {...register('tableid')} className={`form-check-input ${errors.tableid ? 'is-invalid' : ''}`} value={parseInt(table.TableId)} />
-                        <label className="form-check-label" htmlFor={table.TableId}> {new Date(table.date).getMonth()}/{new Date(table.date).getDate()}/{new Date(table.date).getFullYear()}
+                        <input id={table.TableId} name="tableid" type="radio" {...register('tableid')} className={`form-check-input ${errors.tableid ? 'is-invalid' : ''}`} value={`${table.TableId}`} />
+                        <label className="form-check-label" htmlFor={table.TableId}> seats: {table.seats?.join(' + ')}  Date: {new Date(table.date).getMonth()}/{new Date(table.date).getDate()}/{new Date(table.date).getFullYear()}
                         </label>
                     </div>
                 )}

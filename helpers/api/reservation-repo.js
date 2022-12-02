@@ -39,9 +39,11 @@ function update(id, params) {
 // prefixed with underscore '_' because 'delete' is a reserved word in javascript
 function _delete(id) {
     // filter out deleted reservation and save
-    reservation = reservation.filter(x => x.id.toString() !== id.toString());
+    const tables = reservations.filter(x => x.id.toString() === id.toString())[0].tableid
+    reservations = reservations.filter(x => x.id.toString() !== id.toString());
     saveData();
-    
+    console.log(tables + "0000");
+    return tables
 }
 
 // updates jsonfile

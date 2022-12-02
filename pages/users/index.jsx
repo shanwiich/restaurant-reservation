@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 
 import { Link, Spinner } from 'components';
 import { Layout } from 'components/users';
-import { reservationService, reservationservice, userService } from 'services';
+import { alertService, reservationService, reservationservice, userService } from 'services';
+import { tableService } from 'services/table.service';
 
 export default Index;
 
@@ -15,14 +16,22 @@ function Index() {
         userId != 0 ? reservationService.getByUserID(userId).then(x => setReservations(x)) : setReservations([]);
     }, []);
 
+    function unbookTables(data){
+        return tableService.unbook(data.tableid.split(','))
+        .then(() => {
+            alertService.success(`Deleted`, { keepAfterRouteChange: true });
+        })
+        .catch(alertService.error);
+    }
 
-    function deleteUser(id) {
+    function deleteReservation(id) {
         setReservations(reservations.map(x => {
             if (x.id === id) { x.isDeleting = true; }
             return x;
         }));
-        reservationservice.delete(id).then(() => {
-            setReservations(reservations => reservations.filter(x => x.id !== id));
+        reservationService.delete(id).then((response) => {
+            unbookTables(response)
+            setReservations(reservations => reservations.filter(x => x.id !== id))
         });
     }
 ////add/${reservationservice.userValue ? reservationservice.userValue.id : 0}
@@ -54,7 +63,7 @@ function Index() {
                             <td>{reservation.guests}</td>
                             <td>{new Date(reservation.reservationDate).getMonth()}/{new Date(reservation.reservationDate).getDate()}/{new Date(reservation.reservationDate).getFullYear()} {reservation.appt}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
-                                <button onClick={() => deleteUser(reservation.id)} className="btn btn-sm btn-danger btn-delete-user" disabled={reservation.isDeleting}>
+                                <button onClick={() => deleteReservation(reservation.id)} className="btn btn-sm btn-danger btn-delete-user" disabled={reservation.isDeleting}>
                                     {reservation.isDeleting 
                                         ? <span className="spinner-border spinner-border-sm"></span>
                                         : <span>Delete</span>

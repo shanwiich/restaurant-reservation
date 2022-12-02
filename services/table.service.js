@@ -15,7 +15,7 @@ export const tableService = {
     getAll,
     getTablesByFilter,
     getTablesById,
-    delete: _delete,
+    unbook,
     book
 
 };
@@ -26,9 +26,17 @@ function getAll() {
 }
 
 //gets possible reservations from num of guests and date. Combines tables as well. If multiple tables, their id's should be sent as well.
-function getTablesByFilter(numOfGuests, date) {
-    // console.log(`get by id${baseUrl}/${id}`)
-    // return fetchWrapper.get(`${baseUrl}/${id}`);
+// function getTablesByFilter(date, numOfGuests) {
+//     // console.log(`get by id${baseUrl}/${id}`)
+//     return fetchWrapper.get(`${baseUrl}/:${date}/:${numOfGuests}`);
+// }
+
+function getTablesByFilter(date, numOfGuests) {
+    const params = {"date": date, "numofGuests": numOfGuests}
+    return fetchWrapper.put(`${baseUrl}/filter`, params)
+        .then(tables => { console.log(tables)
+            return tables;
+    });
 }
 
 //gets Table based on their table Id if a user wants to look at their reservations. Could send array of id if tables are combined
@@ -37,11 +45,11 @@ function getTablesById(code) {
 }
 
 //book a table. If it is open: true, it should be open: false
-function book(reservationId, data) {
-    // return fetchWrapper.post(`${baseUrl}/${tableId}`, data);
+function book(tableIds) {
+    return fetchWrapper.put(`${baseUrl}/book`, tableIds);
 }
 
 // unbook a table if user deletes reservation
-function _delete(id) {
-    return fetchWrapper.delete(`${baseUrl}/${id}`);
+function unbook(data) {
+    return fetchWrapper.put(`${baseUrl}`, data);
 }
