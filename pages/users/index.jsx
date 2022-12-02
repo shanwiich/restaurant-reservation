@@ -65,7 +65,7 @@ function Index() {
                             <td>{reservation.firstName}</td>
                             <td>{reservation.lastName}</td>
                             <td>{reservation.guests}</td>
-                            <td>{new Date(reservation.reservationDate).getMonth()}/{new Date(reservation.reservationDate).getDate()}/{new Date(reservation.reservationDate).getFullYear()} {reservation.appt}</td>
+                            <td>{reservation.reservationDate} {reservation.appt}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
                                 <button onClick={() => deleteReservation(reservation.id)} className="btn btn-sm btn-danger btn-delete-user" disabled={reservation.isDeleting}>
                                     {reservation.isDeleting 

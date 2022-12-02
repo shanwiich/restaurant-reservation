@@ -109,7 +109,7 @@ function AddEdit(props) {
                 {!tables ? <div>no reservations avaliable for specified filters</div> : tables.map(table =>
                     <div className="form-check">
                         <input id={table.TableId} name="tableid" type="radio" {...register('tableid')} className={`form-check-input ${errors.tableid ? 'is-invalid' : ''}`} value={`${table.TableId}`} />
-                        <label className="form-check-label" htmlFor={table.TableId}> seats: {table.seats?.join(' + ')}  Date: {new Date(table.date).getMonth()}/{new Date(table.date).getDate()}/{new Date(table.date).getFullYear()}
+                        <label className="form-check-label" htmlFor={table.TableId}> seats: {table.seats?.join(' + ')}  Date: {date}
                         </label>
                     </div>
                 )}

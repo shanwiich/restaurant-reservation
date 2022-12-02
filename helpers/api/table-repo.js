@@ -33,9 +33,9 @@ function unbook(id) {
 }
 
 function getByFilter(date, seats) {
-    const newDate = new Date(date).toISOString();
+    const newDate = date;
     const combined = {};
-    let filtered_table = tables.filter(x => x.date === newDate && x.seats[0] === parseInt(seats) && x.booked === false)
+    let filtered_table = tables.filter(x => x.date === newDate && (x.seats[0] === parseInt(seats) || x.seats[0] === parseInt(seats)+1)  && x.booked === false)
 
     if (filtered_table.length !== 0) {
         return [filtered_table[0]]
@@ -44,7 +44,7 @@ function getByFilter(date, seats) {
         filtered_table = tables.filter(x => x.date.toString() === newDate && x.booked === false)
         for (let i = 0; i < filtered_table.length; i++) {
             for (let j = i + 1; j < filtered_table.length; j++) {
-                if (filtered_table[j].seats == seats - filtered_table[i].seats) {
+                if (filtered_table[j].seats == seats - filtered_table[i].seats || filtered_table[j].seats == seats - filtered_table[i].seats + 1) {
                     combined.TableId = [filtered_table[i].TableId[0], filtered_table[j].TableId[0]]
                     combined.seats = [filtered_table[i].seats[0], filtered_table[j].seats[0]]
                     combined.date = filtered_table[i].date
