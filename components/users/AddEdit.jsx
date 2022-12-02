@@ -3,11 +3,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import "yup-phone-lite";
+import valid from 'card-validator';
 
 import { Link, Spinner } from 'components';
 import { reservationService, userService, alertService } from 'services';
 import { useState, useEffect } from 'react';
 import { tableService } from 'services/table.service';
+import { feeService } from 'services/fee.service';
 
 export { AddEdit };
 
@@ -24,11 +26,15 @@ function AddEdit(props) {
         tableService.getAll().then(x => setTables(x));
     }, []);
 
+    const fee = feeService.checkDate(date)
+
     const user = props?.user;
     const guessUser = !user;
 
+    //console.log(fee)
     // form validation rules 
     const validationSchema = Yup.object().shape({
+        fees: Yup.boolean().default(fee),
         firstName: Yup.string()
             .required('First Name is required'),
         lastName: Yup.string()
@@ -41,12 +47,20 @@ function AddEdit(props) {
             .required("A input is required"),
         tableid: Yup.number()
             .required("A reservation option is required"),
-        guests: Yup.number().default(parseInt(guests)),
-        appt: Yup.string().required('time required')
+        guests: Yup.number()
+            .default(parseInt(guests)),
+        appt: Yup.string()
+            .required('time required'),
+        creditCard: Yup.string()
+            .when("fee", {
+                is: true,
+                then: Yup.string().min(16, "you need 16 digits!").required("Must enter credit card number"),
+                otherwise: Yup.string().notRequired()
+            })
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
+     // set default form values if in edit mode
 
-    // set default form values if in edit mode
     if (!guessUser) {
         formOptions.defaultValues = props.user;
     }
@@ -54,6 +68,8 @@ function AddEdit(props) {
     // get functions to build form with useForm() hook
     const { register, handleSubmit, reset, formState } = useForm(formOptions);
     const { errors } = formState;
+
+    console.log(formState)
 
     function onSubmit(data) {
         data.userId = user ? user.id : 0;
@@ -114,6 +130,16 @@ function AddEdit(props) {
                     <div className="invalid-feedback">{errors.email?.message}</div>
                 </div>
             </div>
+            {fee ?             
+            <div className="form-row">
+                <div className="form-group col">
+                    <label>Credit Card Number *High Track day selected. There is a $10 cancellation fee. Please Enter Credit Card Number*</label>
+                    <input name="creditCard" type="number" {...register('creditCard')} className={`form-control ${errors.creditCard ? 'is-invalid' : ''}`} />
+                    {/* <div className="invalid-feedback">{errors.creditCard?.message}</div> */}
+                    <div className="invalid-feedback">{errors.creditCard?.message}</div>
+                </div>
+            </div> 
+            : <div></div>}
             <div className="form-group">
                 <button type="submit" disabled={formState.isSubmitting} className="btn btn-primary mr-2">
                     {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
