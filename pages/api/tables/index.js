@@ -14,8 +14,8 @@ function getTables(req, res) {
 }
 
 function unbook(req, res) {
-    console.log("req " + req.body)
-    console.log(tablesRepo.unbook(req.body))
+    console.log("unboooking " + req.body)
+    tablesRepo.unbook(req.body)
     // usersRepo.update(req.query.id, params);
     return res.status(200).json({});
 }

@@ -17,7 +17,10 @@ function Index() {
     }, []);
 
     function unbookTables(data){
-        return tableService.unbook(data.tableid.split(','))
+        console.log("data is: " + data)
+        console.log("datatabk is: " + data.tableid)
+        console.log("datatsplit is: ")
+        return tableService.unbook(data.tableid)
         .then(() => {
             alertService.success(`Deleted`, { keepAfterRouteChange: true });
         })
@@ -30,6 +33,7 @@ function Index() {
             return x;
         }));
         reservationService.delete(id).then((response) => {
+            console.log(response)
             unbookTables(response)
             setReservations(reservations => reservations.filter(x => x.id !== id))
         });

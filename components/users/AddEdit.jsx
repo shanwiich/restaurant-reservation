@@ -56,7 +56,7 @@ function AddEdit(props) {
         appt: Yup.string()
             .required('time required'),
         creditCard: Yup.string()
-            .when("fee", {
+            .when("fees", {
                 is: true,
                 then: Yup.string().min(16, "you need 16 digits!").required("Must enter credit card number"),
                 otherwise: Yup.string().notRequired()

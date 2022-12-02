@@ -13,7 +13,7 @@ export default apiHandler({
 // }
 
 function book(req, res) {
-    console.log(req.body)
+    console.log("booking: "+ req.body)
 
     // // validate
     // if (user.username !== params.username && usersRepo.find(x => x.username === params.username))

@@ -27,7 +27,7 @@
             2
         ],
         "date": "2022-12-18T00:00:00.000Z",
-        "booked": true
+        "booked": false
     },
     {
         "TableId": [
@@ -97,7 +97,7 @@
             4
         ],
         "date": "2022-12-21T00:00:00.000Z",
-        "booked": true
+        "booked": false
     },
     {
         "TableId": [
