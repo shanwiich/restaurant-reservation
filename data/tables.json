@@ -1,0 +1,212 @@
+[
+    {
+        "TableId": [
+            1
+        ],
+        "seats": [
+            4
+        ],
+        "date": "2022-12-18T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            2
+        ],
+        "seats": [
+            6
+        ],
+        "date": "2022-12-18T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            3
+        ],
+        "seats": [
+            2
+        ],
+        "date": "2022-12-18T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            4
+        ],
+        "seats": [
+            4
+        ],
+        "date": "2022-12-19T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            5
+        ],
+        "seats": [
+            6
+        ],
+        "date": "2022-12-19T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            6
+        ],
+        "seats": [
+            2
+        ],
+        "date": "2022-12-19T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            7
+        ],
+        "seats": [
+            4
+        ],
+        "date": "2022-12-20T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            8
+        ],
+        "seats": [
+            6
+        ],
+        "date": "2022-12-20T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            9
+        ],
+        "seats": [
+            2
+        ],
+        "date": "2022-12-20T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            10
+        ],
+        "seats": [
+            4
+        ],
+        "date": "2022-12-21T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            11
+        ],
+        "seats": [
+            6
+        ],
+        "date": "2022-12-21T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            12
+        ],
+        "seats": [
+            2
+        ],
+        "date": "2022-12-21T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            13
+        ],
+        "seats": [
+            4
+        ],
+        "date": "2022-12-22T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            14
+        ],
+        "seats": [
+            6
+        ],
+        "date": "2022-12-22T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            15
+        ],
+        "seats": [
+            2
+        ],
+        "date": "2022-12-22T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            16
+        ],
+        "seats": [
+            4
+        ],
+        "date": "2022-12-23T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            17
+        ],
+        "seats": [
+            6
+        ],
+        "date": "2022-12-23T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            18
+        ],
+        "seats": [
+            2
+        ],
+        "date": "2022-12-23T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            19
+        ],
+        "seats": [
+            4
+        ],
+        "date": "2022-12-24T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            20
+        ],
+        "seats": [
+            6
+        ],
+        "date": "2022-12-24T00:00:00.000Z",
+        "booked": false
+    },
+    {
+        "TableId": [
+            21
+        ],
+        "seats": [
+            2
+        ],
+        "date": "2022-12-24T00:00:00.000Z",
+        "booked": false
+    }
+]

@@ -1,1 +1,19 @@
-[]
+[
+    {
+        "firstName": "vv",
+        "lastName": "vvcc",
+        "username": "cc",
+        "hash": "$2a$10$wD0mGQd4pKc01V7rLZFEO.8.2MCZpPPYNfK/BV2yjrTUt5PO2gZ.2",
+        "id": 2,
+        "dateCreated": "Wed Nov 30 2022 23:41:13 GMT-0600 (Central Standard Time)"
+    },
+    {
+        "firstName": "Shannon",
+        "lastName": "Puliy",
+        "username": "ok",
+        "hash": "$2a$10$VDrNUxa2C3WkpZMhW9uc...cFF23MAYdCVGu6Y5hFxQiFAeU8YgHi",
+        "id": 3,
+        "dateCreated": "Thu Dec 01 2022 16:00:52 GMT-0600 (Central Standard Time)",
+        "dateUpdated": "Thu Dec 01 2022 16:00:52 GMT-0600 (Central Standard Time)"
+    }
+]

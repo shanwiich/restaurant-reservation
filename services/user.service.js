@@ -6,6 +6,7 @@ import { fetchWrapper } from 'helpers';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}/users`;
+const baseDom = `${publicRuntimeConfig.apiUrl}`
 const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
 
 export const userService = {
@@ -47,6 +48,7 @@ function getAll() {
 }
 
 function getById(id) {
+    console.log(`${baseUrl}/${id}`)
     return fetchWrapper.get(`${baseUrl}/${id}`);
 }
 
@@ -54,7 +56,7 @@ function update(id, params) {
     return fetchWrapper.put(`${baseUrl}/${id}`, params)
         .then(x => {
             // update stored user if the logged in user updated their own record
-            if (id === userSubject.value.id) {
+            if (userSubject.value != null && id === userSubject.value.id) {
                 // update local storage
                 const user = { ...userSubject.value, ...params };
                 localStorage.setItem('user', JSON.stringify(user));

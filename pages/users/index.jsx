@@ -2,50 +2,73 @@ import { useState, useEffect } from 'react';
 
 import { Link, Spinner } from 'components';
 import { Layout } from 'components/users';
-import { userService } from 'services';
+import { alertService, reservationService, reservationservice, userService } from 'services';
+import { tableService } from 'services/table.service';
 
 export default Index;
 
 function Index() {
-    const [users, setUsers] = useState(null);
+    const [reservations, setReservations] = useState(null);
+
+    const userId = userService.userValue ? userService.userValue.id : 0;
 
     useEffect(() => {
-        userService.getAll().then(x => setUsers(x));
+        userId != 0 ? reservationService.getByUserID(userId).then(x => setReservations(x)) : setReservations([]);
     }, []);
 
-    function deleteUser(id) {
-        setUsers(users.map(x => {
+    function unbookTables(data){
+        console.log("data is: " + data)
+        console.log("datatabk is: " + data.tableid)
+        console.log("datatsplit is: ")
+        return tableService.unbook(data.tableid)
+        .then(() => {
+            alertService.success(`Deleted`, { keepAfterRouteChange: true });
+        })
+        .catch(alertService.error);
+    }
+
+    function deleteReservation(id) {
+        setReservations(reservations.map(x => {
             if (x.id === id) { x.isDeleting = true; }
             return x;
         }));
-        userService.delete(id).then(() => {
-            setUsers(users => users.filter(x => x.id !== id));
+        reservationService.delete(id).then((response) => {
+            console.log(response)
+            unbookTables(response)
+            setReservations(reservations => reservations.filter(x => x.id !== id))
         });
     }
-
+////add/${reservationservice.userValue ? reservationservice.userValue.id : 0}
     return (
         <Layout>
-            <h1>Users</h1>
-            <Link href="/users/add" className="btn btn-sm btn-success mb-2">Add User</Link>
+            <h1>Reservations</h1>
+            <Link href={`/reservations`} className="btn btn-sm btn-success mb-2">Add Reservation</Link>
             <table className="table table-striped">
                 <thead>
                     <tr>
                         <th style={{ width: '30%' }}>First Name</th>
                         <th style={{ width: '30%' }}>Last Name</th>
-                        <th style={{ width: '30%' }}>Username</th>
-                        <th style={{ width: '10%' }}></th>
+                        <th style={{ width: '30%' }}>Seats</th>
+                        <th style={{ width: '20%' }}>Date/Time</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users && users.map(user =>
-                        <tr key={user.id}>
-                            <td>{user.firstName}</td>
-                            <td>{user.lastName}</td>
-                            <td>{user.username}</td>
+                    {userId == 0 &&
+                        <tr>
+                            <td colSpan="4" className="text-center">
+                                <div className="p-2">Login/Register to keep track reservations easier!</div>
+                            </td>
+                        </tr>
+                    }
+                    {reservations != "" && reservations && reservations.map((reservation) =>
+                        <tr key={reservation.id}>
+                            <td>{reservation.firstName}</td>
+                            <td>{reservation.lastName}</td>
+                            <td>{reservation.guests}</td>
+                            <td>{new Date(reservation.reservationDate).getMonth()}/{new Date(reservation.reservationDate).getDate()}/{new Date(reservation.reservationDate).getFullYear()} {reservation.appt}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
-                                <Link href={`/users/edit/${user.id}`} className="btn btn-sm btn-primary mr-1">Edit</Link>
-                                <button onClick={() => deleteUser(user.id)} className="btn btn-sm btn-danger btn-delete-user" disabled={user.isDeleting}>
-                                    {user.isDeleting 
+                                <button onClick={() => deleteReservation(reservation.id)} className="btn btn-sm btn-danger btn-delete-user" disabled={reservation.isDeleting}>
+                                    {reservation.isDeleting 
                                         ? <span className="spinner-border spinner-border-sm"></span>
                                         : <span>Delete</span>
                                     }
@@ -53,17 +76,10 @@ function Index() {
                             </td>
                         </tr>
                     )}
-                    {!users &&
-                        <tr>
-                            <td colSpan="4">
-                                <Spinner />
-                            </td>
-                        </tr>
-                    }
-                    {users && !users.length &&
+                    {userId != 0 && reservations == "" && !reservations.length &&
                         <tr>
                             <td colSpan="4" className="text-center">
-                                <div className="p-2">No Users To Display</div>
+                                <div className="p-2">No reservations To Display</div>
                             </td>
                         </tr>
                     }

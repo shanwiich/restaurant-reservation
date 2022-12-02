@@ -2,34 +2,70 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import "yup-phone-lite";
+import valid from 'card-validator';
 
-import { Link } from 'components';
-import { userService, alertService } from 'services';
+import { Link, Spinner } from 'components';
+import { reservationService, userService, alertService } from 'services';
+import { useState, useEffect } from 'react';
+import { tableService } from 'services/table.service';
+import { feeService } from 'services/fee.service';
 
 export { AddEdit };
 
 function AddEdit(props) {
+    const router = useRouter()
+
+    const {
+        query: {guests, date},
+    } = router
+
+    const [tables, setTables] = useState(null);
+
+    useEffect(() => {
+        // fetch user and set default form values if in edit mode
+        tableService.getTablesByFilter(date, guests)
+            .then(x => setTables(x))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    console.log(tables)
+    const fee = feeService.checkDate(date)
+
     const user = props?.user;
-    const isAddMode = !user;
-    const router = useRouter();
-    
+    const guessUser = !user;
+
+    //console.log(fee)
     // form validation rules 
     const validationSchema = Yup.object().shape({
+        fees: Yup.boolean().default(fee),
         firstName: Yup.string()
             .required('First Name is required'),
         lastName: Yup.string()
             .required('Last Name is required'),
-        username: Yup.string()
-            .required('Username is required'),
-        password: Yup.string()
-            .transform(x => x === '' ? undefined : x)
-            .concat(isAddMode ? Yup.string().required('Password is required') : null)
-            .min(6, 'Password must be at least 6 characters')
+        phone: Yup.string()
+            .phone("US", "Please enter a valid phone number")
+            .required("A input is required"),
+        email: Yup.string()
+            .email('Not a proper email')
+            .required("A input is required"),
+        tableid: Yup.string()
+            .required("A reservation option is required"),
+        guests: Yup.number()
+            .default(parseInt(guests)),
+        appt: Yup.string()
+            .required('time required'),
+        creditCard: Yup.string()
+            .when("fees", {
+                is: true,
+                then: Yup.string().min(16, "you need 16 digits!").required("Must enter credit card number"),
+                otherwise: Yup.string().notRequired()
+            })
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
+     // set default form values if in edit mode
 
-    // set default form values if in edit mode
-    if (!isAddMode) {
+    if (!guessUser) {
         formOptions.defaultValues = props.user;
     }
 
@@ -37,33 +73,54 @@ function AddEdit(props) {
     const { register, handleSubmit, reset, formState } = useForm(formOptions);
     const { errors } = formState;
 
+    console.log(formState)
+
     function onSubmit(data) {
-        return isAddMode
-            ? createUser(data)
-            : updateUser(user.id, data);
+        bookTable(data);
+        data.tableid = data.tableid.split(',');
+        data.userId = user ? user.id : 0;
+        data.reservationDate = tables[0].date;
+
+        console.log(data)
+
+        return createReservation(data)
     }
 
-    function createUser(data) {
-        return userService.register(data)
-            .then(() => {
-                alertService.success('User added', { keepAfterRouteChange: true });
-                router.push('.');
-            })
-            .catch(alertService.error);
+    function bookTable(data){
+        return tableService.book(data.tableid.split(','))
+        .then(() => {
+            alertService.success(`Booked!`, { keepAfterRouteChange: true });
+        })
+        .catch(alertService.error);
     }
 
-    function updateUser(id, data) {
-        return userService.update(id, data)
-            .then(() => {
-                alertService.success('User updated', { keepAfterRouteChange: true });
-                router.push('..');
+    function createReservation(data) {
+        return reservationService.add(data)
+            .then((reservationInfo) => {
+                alertService.success(`Reservation added! Reservation Code is: ${reservationInfo.reservationID} `, { keepAfterRouteChange: true });
+                router.push('/users');
             })
             .catch(alertService.error);
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+                {!tables ? <div>no reservations avaliable for specified filters</div> : tables.map(table =>
+                    <div className="form-check">
+                        <input id={table.TableId} name="tableid" type="radio" {...register('tableid')} className={`form-check-input ${errors.tableid ? 'is-invalid' : ''}`} value={`${table.TableId}`} />
+                        <label className="form-check-label" htmlFor={table.TableId}> seats: {table.seats?.join(' + ')}  Date: {new Date(table.date).getMonth()}/{new Date(table.date).getDate()}/{new Date(table.date).getFullYear()}
+                        </label>
+                    </div>
+                )}
+                <div className="invalid-feedback">{errors.tableid?.message}</div>
+            </div>
             <div className="form-row">
+                <div className="form-group col">
+                    <label htmlFor="appt">Select a time:</label>
+                    <input type="time" {...register('appt')} id="appt" name="appt" className="form-control"/>
+                    <div className="invalid-feedback">{errors.time?.message}</div>
+                </div>
                 <div className="form-group col">
                     <label>First Name</label>
                     <input name="firstName" type="text" {...register('firstName')} className={`form-control ${errors.firstName ? 'is-invalid' : ''}`} />
@@ -77,26 +134,33 @@ function AddEdit(props) {
             </div>
             <div className="form-row">
                 <div className="form-group col">
-                    <label>Username</label>
-                    <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
+                    <label>Phone #</label>
+                    <input name="phone" type="number" {...register('phone')} className={`form-control ${errors.phone ? 'is-invalid' : ''}`} />
                     <div className="invalid-feedback">{errors.email?.message}</div>
                 </div>
                 <div className="form-group col">
-                    <label>
-                        Password
-                        {!isAddMode && <em className="ml-1">(Leave blank to keep the same password)</em>}
-                    </label>
-                    <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
-                    <div className="invalid-feedback">{errors.password?.message}</div>
+                    <label>Email</label>
+                    <input name="email" type="email" {...register('email')} className={`form-control ${errors.email ? 'is-invalid' : ''}`} />
+                    <div className="invalid-feedback">{errors.email?.message}</div>
                 </div>
             </div>
+            {fee ?             
+            <div className="form-row">
+                <div className="form-group col">
+                    <label>Credit Card Number *High Track day selected. There is a $10 cancellation fee. Please Enter Credit Card Number*</label>
+                    <input name="creditCard" type="number" {...register('creditCard')} className={`form-control ${errors.creditCard ? 'is-invalid' : ''}`} />
+                    {/* <div className="invalid-feedback">{errors.creditCard?.message}</div> */}
+                    <div className="invalid-feedback">{errors.creditCard?.message}</div>
+                </div>
+            </div> 
+            : <div></div>}
             <div className="form-group">
                 <button type="submit" disabled={formState.isSubmitting} className="btn btn-primary mr-2">
                     {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                     Save
                 </button>
                 <button onClick={() => reset(formOptions.defaultValues)} type="button" disabled={formState.isSubmitting} className="btn btn-secondary">Reset</button>
-                <Link href="/users" className="btn btn-link">Cancel</Link>
+                <Link href="/reservations" className="btn btn-link">Cancel</Link>
             </div>
         </form>
     );

@@ -11,6 +11,7 @@
     "dependencies": {
         "@hookform/resolvers": "^2.7.1",
         "bcryptjs": "^2.4.3",
+        "card-validator": "^8.1.1",
         "express-jwt": "^6.1.0",
         "jsonwebtoken": "^8.5.1",
         "next": "^11.1.0",
@@ -19,7 +20,9 @@
         "react-dom": "^17.0.2",
         "react-hook-form": "^7.12.1",
         "rxjs": "^7.3.0",
-        "yup": "^0.32.9"
+        "yarn": "^1.22.19",
+        "yup": "^0.32.9",
+        "yup-phone-lite": "^1.1.2"
     },
     "devDependencies": {
         "eslint": "7.32.0",
